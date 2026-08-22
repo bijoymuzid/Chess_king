@@ -12,7 +12,13 @@ from overlay import run
 from stockfish_bot import StockfishBot
 from selenium.common import WebDriverException
 import keyboard
-from PIL import Image, ImageTk
+
+# Optional PIL (Pillow) for custom logo loading
+try:
+    from PIL import Image, ImageTk
+    PIL_AVAILABLE = True
+except ModuleNotFoundError:
+    PIL_AVAILABLE = False
 
 class GUI:
     def __init__(self, master):
@@ -74,26 +80,24 @@ class GUI:
             os.path.dirname(os.path.abspath(__file__)), "..",
             "Modern Creative Logo Instagram Post.png"
         )
-        if os.path.exists(logo_path):
+        if os.path.exists(logo_path) and PIL_AVAILABLE:
             try:
                 logo_img = Image.open(logo_path)
                 logo_img = logo_img.resize((32, 32), Image.LANCZOS)
                 self.logo_tk = ImageTk.PhotoImage(logo_img)
                 master.iconphoto(True, self.logo_tk)
             except Exception:
-                fallback_path = os.path.join(
-                    os.path.dirname(os.path.abspath(__file__)),
-                    "assets", "pawn_32x32.png"
-                )
-                if os.path.exists(fallback_path):
-                    master.iconphoto(True, tk.PhotoImage(file=fallback_path))
-        else:
-            fallback_path = os.path.join(
-                os.path.dirname(os.path.abspath(__file__)),
-                "assets", "pawn_32x32.png"
-            )
-            if os.path.exists(fallback_path):
+                pass
+        # Fallback to default icon
+        fallback_path = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            "assets", "pawn_32x32.png"
+        )
+        if os.path.exists(fallback_path):
+            try:
                 master.iconphoto(True, tk.PhotoImage(file=fallback_path))
+            except Exception:
+                pass
 
         # ── Configure ttk style ──
         style = ttk.Style()
