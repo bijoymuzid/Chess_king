@@ -36,34 +36,6 @@ Note that the mouse is being moved by python
 
 **Note** You can stop the bot at any time by pressing Stop or pressing 2.
 
-## Currently supports
-- Windows/Linux platforms
-- Chess.com
-- Lichess.org
-- Playing vs humans
-- Playing vs bots
-- Puzzles (with option for non-stop solving):
-    - [ ] chess.com
-    - [x] lichess.org
-- Manual mode (Press or hold 3 to move when enabled)  
-  An arrow with the best move is also displayed
-- Mouseless mode (The moves are made without the mouse moving, also works while the browser is at the background):
-    - [ ] chess.com
-    - [x] lichess.org
-- Bongcloud mode ( ͡° ͜ʖ ͡° )
-- Non-stop mode (The bot will play non-stop)
-    - [ ] chess.com
-    - [x] lichess.org
-- Ability to add a fixed amount of mouse latency
-- Skill level selection (0-20)
-- Depth level selection (1-20)
-- Memory (RAM) usage selection
-- CPU threads number selection
-- Slow Mover option (defaults to 100, 10 &le; Slow Mover &le; 1000)  
-  lower values will make Stockfish take less time in games, higher values will make it think longer
-- Exporting finished games to PGN
-- W/D/L, accuracy and material statistics tracking
-- Evaluation bar display on the side
 
 ## Future features
 - Random delays in between moves to simulate human behavior
