@@ -3,15 +3,6 @@
   <img src="https://img.shields.io/badge/Donate-PayPal-green.svg">
 </a>
 
-A bot for chess.com and lichess.org that automatically plays chess for you  
-
-Chess.com  
-![](match_chesscom.gif)  
-
-Lichess.org  
-![](match_lichess.gif)  
-Note that the mouse is being moved by python
-
 ## How to install
 1) Clone the repository or just download the repository as a .zip
 2) Download Stockfish from https://stockfishchess.org/  
