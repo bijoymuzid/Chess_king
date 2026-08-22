@@ -14,59 +14,6 @@ from selenium.common import WebDriverException
 import keyboard
 from PIL import Image, ImageTk
 
-# Optional OpenCV import for intro video
-try:
-    import cv2
-    CV2_AVAILABLE = True
-except ModuleNotFoundError:
-    CV2_AVAILABLE = False
-
-
-class IntroVideo:
-    """Plays the intro MP4 video in a separate window before the main app loads."""
-
-    def __init__(self, video_path):
-        self.video_path = video_path
-
-    def play(self, on_finished):
-        """Play the intro video and call on_finished when done or closed."""
-        if not CV2_AVAILABLE:
-            on_finished()
-            return
-
-        def _play():
-            try:
-                cap = cv2.VideoCapture(self.video_path)
-                if not cap.isOpened():
-                    on_finished()
-                    return
-
-                fps = cap.get(cv2.CAP_PROP_FPS)
-                delay = int(1000 / fps) if fps > 0 else 33
-                cv2.namedWindow("Chess_king Intro", cv2.WINDOW_NORMAL)
-                cv2.resizeWindow("Chess_king Intro", 640, 360)
-
-                while True:
-                    ret, frame = cap.read()
-                    if not ret:
-                        break
-                    cv2.imshow("Chess_king Intro", frame)
-                    key = cv2.waitKey(delay) & 0xFF
-                    if key == 27 or key == ord('q') or key == ord(' '):  # ESC, q, space to skip
-                        break
-
-                cap.release()
-                cv2.destroyWindow("Chess_king Intro")
-                cv2.waitKey(1)  # Flush the event queue
-            except Exception:
-                pass
-            on_finished()
-
-        thread = threading.Thread(target=_play, daemon=True)
-        thread.start()
-        return thread
-
-
 class GUI:
     def __init__(self, master):
         self.master = master
@@ -1018,28 +965,7 @@ class GUI:
         self.black_acc_text.update()
 
 
-def play_intro_then_start():
-    """Play intro video, then start the main GUI."""
-    video_path = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "..",
-        "Modern Creative Logo Instagram Post.mp4"
-    )
-    if os.path.exists(video_path):
-        intro = IntroVideo(video_path)
-        intro_played = threading.Event()
-
-        def on_intro_finished():
-            intro_played.set()
-
-        intro.play(on_intro_finished)
-        # Wait for the video to finish (with timeout in case it loops)
-        intro_played.wait(timeout=30)
-
-    # Start the main GUI
+if __name__ == "__main__":
     window = tk.Tk()
     my_gui = GUI(window)
     window.mainloop()
-
-
-if __name__ == "__main__":
-    play_intro_then_start()
